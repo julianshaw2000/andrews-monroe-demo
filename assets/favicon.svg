@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Andrews &amp; Monroe Solicitors">
+  <!-- The firm's printed monogram: a teal A overlapping an indigo-white M,
+       on the site's ink background. Serif stack only — a favicon cannot
+       load a webfont, so Newsreader is requested and Georgia catches it. -->
+  <rect width="64" height="64" rx="10" fill="#0E1126"/>
+  <g font-family="Newsreader, Georgia, 'Times New Roman', serif" font-weight="500" font-size="42">
+    <text x="7" y="47" fill="#3FA093">A</text>
+    <text x="25" y="47" fill="#FFFFFF">M</text>
+  </g>
+</svg>

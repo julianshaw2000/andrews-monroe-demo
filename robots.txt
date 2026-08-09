@@ -1,0 +1,6 @@
+# PREVIEW BUILD — not for production.
+# The production robots.txt lives in the source tree and allows crawling.
+# This copy blocks everything, and every page also carries meta noindex,
+# which is what actually applies on a project Pages subpath.
+User-agent: *
+Disallow: /

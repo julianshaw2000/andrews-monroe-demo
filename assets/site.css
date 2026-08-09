@@ -1,0 +1,436 @@
+/* ============================================================
+   ANDREWS & MONROE — SHARED STYLESHEET
+   ------------------------------------------------------------
+   Loaded by every page. Buildless: plain <link rel="stylesheet">.
+
+   WHAT LIVES HERE
+   Tokens, base type, layout primitives, and every component that
+   appears on more than one page: header, breadcrumbs, buttons,
+   form fields, FAQ accordion, interior two-column body, footer,
+   mobile dock, scroll reveal.
+
+   WHAT DOES NOT LIVE HERE
+   Page-unique components stay in a <style> block on their own
+   page, so nothing is downloaded that only one page uses:
+     index.html       hero, trust row, intake wizard, credential
+                      belt, practice-area cards, process, bio,
+                      testimonials, fees table, contact list
+     employment.html  the tribunal deadline checker (.tool)
+   The homepage also overrides the type scale and band rhythm —
+   see "HOMEPAGE OVERRIDES" in its own <style> block.
+
+   TYPE SCALE
+   The scale below is the *interior page* scale. The homepage
+   deliberately runs larger; that is an override, not a bug.
+   ============================================================ */
+
+/* ---- 0. WEBFONTS ----
+   Self-hosted. The site previously loaded these from Google Fonts, which
+   made a third-party request on every page load and disclosed each
+   visitor's IP address to Google before they had done anything. For a
+   solicitor's site that is a privacy answer as much as a performance one.
+
+   These are the exact files Google served, with Google's own
+   unicode-range subsetting kept, so a browser still downloads only the
+   ranges the page needs — about 264 KB of Latin for an English page, the
+   same bytes as before, now from one origin instead of two.
+
+   Newsreader and IBM Plex Sans are variable fonts: one file each covers
+   weights 400-600, declared here as a range. IBM Plex Mono ships as
+   static instances, so it keeps one face per weight. Newsreader's opsz
+   axis is intact and font-optical-sizing defaults to auto, which is what
+   gives the large headings their display cut.
+
+   Regenerate with scratchpad/selfhost_fonts.py if a weight is ever added.
+   Do not add a weight to the CSS without adding the file. */
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-mono-400-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-500-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/ibm-plex-mono-400-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Mono';font-style:normal;font-weight:500;font-display:swap;src:url(fonts/ibm-plex-mono-500-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/ibm-plex-sans-vf-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/ibm-plex-sans-vf-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/newsreader-400-italic-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:italic;font-weight:400;font-display:swap;src:url(fonts/newsreader-400-italic-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/newsreader-vf-latin.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:'Newsreader';font-style:normal;font-weight:400 600;font-display:swap;src:url(fonts/newsreader-vf-latin-ext.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+
+/* ---- 1. TOKENS ----
+   Palette taken from the firm's printed monogram — teal A,
+   indigo M — with a restrained brass reserved exclusively for
+   credential and regulatory marks. Do not use brass for buttons,
+   headings or hovers. */
+:root{
+  --ink:#0E1126;
+  --ink-2:#151A36;
+  --navy:#1E2650;
+  --navy-3:#2B3564;
+  --teal:#2A7C72;
+  --teal-lift:#3FA093;
+  --teal-deep:#164D46;
+  --brass:#A9863F;
+  --brass-lift:#C9A961;
+
+  --paper:#F5F5F9;
+  --paper-2:#FBFBFD;
+  --white:#fff;
+
+  --text:#171B33;
+  --slate:#525878;
+  --slate-2:#8B90AC;
+  --rule:#DCDDE8;
+  --rule-2:rgba(255,255,255,.14);
+
+  --amber:#8C5E13;
+  --alert:#98302B;
+  --ok:#1F6B5E;
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+
+  --shell:1200px;
+  --gut:clamp(20px,4.6vw,56px);
+  --r:4px;
+  --lift:0 1px 2px rgba(14,17,38,.05),0 24px 56px -24px rgba(14,17,38,.34);
+  --lift-sm:0 1px 2px rgba(14,17,38,.06),0 10px 24px -14px rgba(14,17,38,.24);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--text);
+  font:400 17px/1.62 var(--sans);
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:target{scroll-margin-top:118px}
+
+/* ---- 2. TYPE ---- */
+h1,h2,h3,h4{margin:0;font-family:var(--serif);font-weight:500;line-height:1.1}
+h1{font-size:clamp(2.3rem,4.8vw,3.7rem);letter-spacing:-.02em}
+h2{font-size:clamp(1.8rem,3.2vw,2.6rem);letter-spacing:-.015em}
+h3{font-size:1.26rem;line-height:1.24}
+h4{font-size:1.06rem}
+p{margin:0 0 1.05em}
+p:last-child{margin-bottom:0}
+strong{font-weight:600}
+
+/* Anything that is a number, deadline, reference or regulatory
+   fact is set in mono. That rule carries meaning — keep it. */
+.kicker{
+  font:500 .69rem/1 var(--mono);text-transform:uppercase;letter-spacing:.2em;
+  color:var(--teal);margin:0 0 1.1rem;display:flex;align-items:center;gap:.75rem;
+}
+.kicker::after{content:"";height:1px;flex:1;max-width:88px;background:var(--rule)}
+.dark .kicker{color:var(--teal-lift)}
+.dark .kicker::after{background:var(--rule-2)}
+
+.lede{font-size:clamp(1.05rem,1.45vw,1.19rem);color:var(--slate);max-width:62ch}
+.dark .lede{color:#C0C5DC}
+
+/* CONTRAST RULE FOR --slate-2.
+   #8B90AC gives about 3.1:1 on white — below the 4.5:1 WCAG AA needs
+   for text this size — but about 6.4:1 on --ink. So it is a
+   dark-background token only. On light backgrounds use --slate
+   (#525878, about 6.2:1 on white) instead. Both already exist; no new
+   token was added. If you set --slate-2 on a light background, that is
+   an accessibility bug. */
+.micro{font:400 .74rem/1.6 var(--mono);color:var(--slate);letter-spacing:.01em}
+.dark .micro,.foot .micro{color:var(--slate-2)}
+
+/* ---- 3. LAYOUT ----
+   Sections alternate .band.white -> .band.paper -> .band.ink.
+   Never two of the same in a row. */
+.shell{max-width:var(--shell);margin:0 auto;padding-inline:var(--gut)}
+.band{padding-block:clamp(56px,7.5vw,100px)}
+.band.paper{background:var(--paper)}
+.band.white{background:var(--white)}
+.band.ink{background:var(--ink);color:#EBECF5}
+.band.slim{padding-block:clamp(42px,5.2vw,68px)}
+.dark{color:#EBECF5}
+.head{max-width:66ch;margin-bottom:clamp(30px,4vw,50px)}
+.head p{margin-top:1.05rem}
+
+.skip{position:absolute;left:-9999px;background:var(--white);padding:.85rem 1.25rem;z-index:200}
+.skip:focus{left:12px;top:12px}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{
+  outline:2px solid var(--teal-lift);outline-offset:3px;border-radius:2px;
+}
+
+/* ---- 4. BUTTONS ---- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.55rem;
+  font:500 .95rem/1 var(--sans);letter-spacing:.01em;padding:1rem 1.6rem;
+  border:1px solid transparent;border-radius:var(--r);cursor:pointer;text-decoration:none;
+  transition:background .2s,color .2s,border-color .2s,transform .12s;
+  /* A phone number broken across two lines reads as two numbers. Every
+     label on this site is short enough that nowrap cannot overflow. */
+  white-space:nowrap;
+}
+.btn:active{transform:translateY(1px)}
+.btn.teal{background:var(--teal);color:#fff}
+.btn.teal:hover{background:var(--teal-lift)}
+.btn.dark-btn{background:var(--navy);color:#fff}
+.btn.dark-btn:hover{background:var(--ink)}
+.btn.line{background:transparent;color:#fff;border-color:rgba(255,255,255,.42)}
+.btn.line:hover{background:rgba(255,255,255,.1);border-color:#fff}
+.btn.line-dark{background:transparent;color:var(--navy);border-color:var(--rule)}
+.btn.line-dark:hover{border-color:var(--navy);background:var(--paper-2)}
+.btn.full{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* ---- 5. MONOGRAM ---- */
+.mono-mark text{font-family:var(--serif);font-weight:500}
+
+/* ---- 6. UTILITY STRIP + HEADER ---- */
+.strip{background:#080A18;color:#9BA1BE;font:400 .72rem/1 var(--mono);letter-spacing:.06em}
+.strip__in{max-width:var(--shell);margin:0 auto;padding:.6rem var(--gut);display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap}
+.strip b{color:var(--brass-lift);font-weight:400}
+.strip a{text-decoration:none}
+.strip a:hover{color:#fff}
+.strip__right,.strip__r{margin-left:auto;display:flex;gap:1.4rem}
+@media (max-width:760px){.strip__right,.strip__r{display:none}}
+
+.bar{position:sticky;top:0;z-index:60;background:var(--ink);border-bottom:1px solid rgba(255,255,255,.09)}
+.bar__in{max-width:var(--shell);margin:0 auto;padding-inline:var(--gut);display:flex;align-items:center;gap:1.4rem;min-height:78px}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:#EBECF5;padding-block:10px}
+.brand__n{font:600 1.12rem/1.05 var(--serif);text-transform:uppercase;letter-spacing:.13em;white-space:nowrap}
+.brand__s{display:block;font:400 .58rem/1 var(--mono);letter-spacing:.28em;text-transform:uppercase;color:var(--teal-lift);margin-top:4px}
+
+.nav{margin-left:auto;display:flex;align-items:center;gap:1.75rem}
+.nav a{text-decoration:none;font-size:.84rem;letter-spacing:.045em;text-transform:uppercase;color:#C0C5DC;padding-block:8px;position:relative}
+.nav a::after{content:"";position:absolute;inset:auto 0 0;height:1px;background:var(--teal-lift);transform:scaleX(0);transform-origin:left;transition:transform .26s cubic-bezier(.2,.7,.3,1)}
+.nav a:hover{color:#fff}
+.nav a:hover::after{transform:scaleX(1)}
+.nav a[aria-current]{color:#fff}
+.nav a[aria-current]::after{transform:scaleX(1)}
+.nav .btn{padding:.72rem 1.15rem;font-size:.83rem}
+.nav .btn::after{display:none}
+
+.burger{display:none;margin-left:auto;width:44px;height:40px;background:none;border:1px solid rgba(255,255,255,.26);border-radius:var(--r);color:#EBECF5;cursor:pointer;align-items:center;justify-content:center}
+.burger i{display:block;width:18px;height:1px;background:currentColor;position:relative}
+.burger i::before,.burger i::after{content:"";position:absolute;left:0;width:18px;height:1px;background:currentColor}
+.burger i::before{top:-6px}.burger i::after{top:6px}
+@media (max-width:1000px){
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;background:var(--ink);flex-direction:column;align-items:stretch;gap:0;padding:.4rem var(--gut) 1.4rem;border-bottom:1px solid rgba(255,255,255,.12)}
+  .nav.open{display:flex}
+  .nav a{font-size:.98rem;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,.08);text-transform:none;letter-spacing:0}
+  .nav a::after{display:none}
+  .nav .btn{margin-top:1.1rem;justify-content:center;font-size:.95rem;padding:.95rem}
+  .burger{display:flex}
+}
+
+/* ---- 7. BREADCRUMBS (interior pages) ---- */
+.crumbs{background:var(--ink-2);color:#A3A9C4;font:400 .74rem/1 var(--mono);letter-spacing:.04em}
+.crumbs ol{max-width:var(--shell);margin:0 auto;padding:.85rem var(--gut);list-style:none;display:flex;gap:.6rem;flex-wrap:wrap}
+.crumbs a{text-decoration:none}
+.crumbs a:hover{color:#fff}
+.crumbs li[aria-current]{color:var(--teal-lift)}
+
+/* ---- 8. INTERIOR PAGE HERO ---- */
+.phero{
+  position:relative;overflow:hidden;color:#EBECF5;
+  background:
+    radial-gradient(110% 80% at 88% -14%,rgba(42,124,114,.3),transparent 60%),
+    linear-gradient(176deg,var(--ink),#141935 66%,#1A2043);
+  padding-block:clamp(46px,5.8vw,80px) clamp(46px,5.8vw,80px);
+}
+.phero__g{display:grid;gap:clamp(34px,4.4vw,58px);grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:start}
+@media (max-width:1040px){.phero__g{grid-template-columns:1fr}}
+.phero h1{color:#fff}
+.phero .cta{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.9rem}
+.chips{margin:2.2rem 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:.45rem}
+.chips li{font:400 .74rem/1 var(--mono);letter-spacing:.05em;border:1px solid var(--rule-2);border-radius:var(--r);padding:.5rem .7rem;color:#C0C5DC}
+
+/* ---- 9. CARD IN THE HERO'S SECOND COLUMN ----
+   .tool is the shell; employment.html fills it with the deadline
+   checker, the other practice pages fill it with static "at a
+   glance" content via .facts. */
+.tool{background:var(--white);color:var(--text);border-radius:var(--r);box-shadow:var(--lift);overflow:hidden}
+.tool__t{padding:1.4rem 1.55rem 1.15rem;border-bottom:1px solid var(--rule)}
+.tool__t h2{font-size:1.45rem}
+.tool__t p{margin:.55rem 0 0;font-size:.91rem;color:var(--slate);line-height:1.52}
+.tool__b{padding:1.45rem 1.55rem}
+.tool__f{background:var(--paper);border-top:1px solid var(--rule);padding:.9rem 1.55rem}
+.tool__f p{margin:0;font:400 .71rem/1.6 var(--mono);color:var(--slate)}
+
+/* static "at a glance" list used in place of an interactive tool */
+.facts{margin:0;padding:0;list-style:none}
+.facts li{padding:.85rem 0;border-top:1px solid var(--rule)}
+.facts li:first-child{border-top:0;padding-top:0}
+.facts li:last-child{padding-bottom:0}
+.facts b{display:block;font:400 .64rem/1 var(--mono);text-transform:uppercase;letter-spacing:.13em;color:var(--slate);margin-bottom:.45rem;font-weight:400}
+.facts span{font-size:.93rem;color:var(--slate);line-height:1.55;display:block}
+.facts em{font-style:normal;font-family:var(--mono);color:var(--navy)}
+
+/* ---- 10. FORM FIELDS ---- */
+.field{display:block;margin-bottom:1.05rem}
+.field__l{display:block;font:500 .67rem/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--slate);margin-bottom:.5rem}
+.field input,.field select,.field textarea{
+  width:100%;font:400 1rem/1.4 var(--sans);color:var(--text);background:var(--paper-2);
+  border:1px solid var(--rule);border-radius:var(--r);padding:.8rem .85rem;
+  transition:border-color .18s,background .18s;
+}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:var(--slate-2)}
+.field input:focus,.field select:focus,.field textarea:focus{background:#fff;border-color:var(--teal)}
+.field textarea{min-height:100px;resize:vertical}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:520px){.pair{grid-template-columns:1fr}}
+.row{display:flex;gap:.6rem;margin-top:.3rem}
+.row .btn{flex:1}
+.err{font:400 .82rem/1.4 var(--sans);color:var(--alert);margin-top:-.4rem;margin-bottom:.9rem;display:none}
+.err.on{display:block}
+
+/* ---- 11. DEADLINE VERDICT ----
+   Shared by the homepage intake wizard and the employment
+   deadline checker. Each page sets its own margin and its own
+   show/hide mechanism. */
+.verdict{border:1px solid var(--rule);border-left:3px solid var(--teal);border-radius:var(--r);padding:1.1rem 1.15rem;background:var(--paper-2)}
+.verdict.soon{border-left-color:var(--brass)}
+.verdict.crit,.verdict.past{border-left-color:var(--alert)}
+.verdict__l{font:500 .66rem/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--slate);margin-bottom:.5rem}
+.verdict__d{font:500 clamp(1.35rem,3vw,1.8rem)/1.12 var(--serif)}
+.verdict__c{display:inline-flex;align-items:baseline;gap:.4rem;margin-top:.75rem;padding:.4rem .68rem;border-radius:var(--r);font:400 .8rem/1 var(--mono);background:rgba(42,124,114,.1);color:var(--teal-deep)}
+.verdict__c b{font:500 1.02rem/1 var(--mono)}
+.verdict.soon .verdict__c{background:rgba(169,134,63,.14);color:var(--amber)}
+.verdict.crit .verdict__c,.verdict.past .verdict__c{background:rgba(152,48,43,.1);color:var(--alert)}
+.verdict p{margin:.85rem 0 0;font-size:.87rem;color:var(--slate);line-height:1.55}
+.verdict .row{display:flex;gap:.55rem;margin-top:1.05rem;flex-wrap:wrap}
+
+/* ---- 12. TWO-COLUMN INTERIOR BODY ---- */
+.split{display:grid;gap:clamp(32px,4.4vw,64px);grid-template-columns:minmax(0,1fr) minmax(0,320px);align-items:start}
+@media (max-width:940px){.split{grid-template-columns:1fr}}
+.prose h2{margin-top:0}
+.prose h3{margin:2.2rem 0 .8rem}
+.prose ul{margin:0 0 1.2rem;padding:0;list-style:none}
+.prose ul li{padding:.42rem 0 .42rem 1.3rem;position:relative;border-bottom:1px solid var(--rule);color:var(--slate)}
+.prose ul li::before{content:"";position:absolute;left:0;top:1.05em;width:7px;height:1px;background:var(--teal)}
+.prose ul li strong{color:var(--text)}
+
+/* Grids use 1px gaps over a --rule background to make hairline
+   dividers. No border on the children. */
+.aside{position:sticky;top:104px;display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule)}
+@media (max-width:940px){.aside{position:static}}
+.aside > div{background:var(--white);padding:1.3rem 1.35rem}
+/* h3, not h4: the sidebar sits beside a section whose heading is an h2,
+   so h3 keeps the document outline from skipping a level. The visual
+   size is set here and owes nothing to the tag. */
+.aside h3{font:500 .67rem/1 var(--mono);text-transform:uppercase;letter-spacing:.15em;color:var(--slate);margin-bottom:.9rem}
+.aside ul{margin:0;padding:0;list-style:none;font-size:.93rem}
+.aside li{padding:.42rem 0;border-top:1px solid var(--rule)}
+.aside li:first-child{border-top:0}
+.aside a{text-decoration:none;color:var(--navy)}
+.aside a:hover{color:var(--teal-deep)}
+/* "Reviewed by" credit. The alt is empty on purpose: the solicitor's name
+   and SRA number sit next to it in text, so announcing the image as well
+   would just repeat them. */
+.byline{display:flex;align-items:center;gap:.8rem}
+/* The hairline ring matters: the portrait was shot on white, so against a
+   white card the circular crop is invisible and the head appears to float.
+   1px of --rule is the same divider language used everywhere else. */
+.byline img{width:46px;height:46px;flex:none;border-radius:50%;object-fit:cover;background:var(--paper);box-shadow:0 0 0 1px var(--rule)}
+
+.aside .call{background:var(--navy);color:#fff}
+.aside .call h3{color:rgba(255,255,255,.6)}
+.aside .call p{font-size:.9rem;color:#C0C5DC;margin-bottom:1rem}
+
+/* ---- 13. TWO AUDIENCES ---- */
+.who{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);grid-template-columns:1fr 1fr}
+@media (max-width:760px){.who{grid-template-columns:1fr}}
+.who > div{background:var(--white);padding:1.7rem 1.6rem}
+.who h3{margin-bottom:.9rem}
+.who ul{margin:0;padding:0;list-style:none;font-size:.93rem;color:var(--slate)}
+.who li{padding:.36rem 0 .36rem 1rem;position:relative;border-top:1px solid var(--rule)}
+.who li:first-child{border-top:0}
+.who li::before{content:"";position:absolute;left:0;top:.95em;width:5px;height:1px;background:var(--teal)}
+
+/* ---- 14. FAQ ---- */
+.faq{max-width:840px}
+.faq details{border-top:1px solid var(--rule);background:transparent}
+.faq details:last-of-type{border-bottom:1px solid var(--rule)}
+.faq summary{
+  list-style:none;cursor:pointer;padding:1.22rem 2.4rem 1.22rem 0;position:relative;
+  font:500 1.05rem/1.4 var(--sans);color:var(--navy);
+}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"";position:absolute;right:.35rem;top:1.6rem;width:11px;height:11px;
+  border-right:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);
+  transform:rotate(45deg);transition:transform .24s;
+}
+.faq details[open] summary::after{transform:rotate(225deg)}
+.faq summary:hover{color:var(--teal-deep)}
+.faq__a{padding:0 3rem 1.4rem 0;color:var(--slate);font-size:.97rem}
+.faq__a p{margin-bottom:.8rem}
+
+/* ---- 15. END CTA BAND ---- */
+.endcta{display:grid;gap:2rem;grid-template-columns:1fr auto;align-items:center}
+@media (max-width:820px){.endcta{grid-template-columns:1fr}}
+.endcta .row{display:flex;gap:.7rem;flex-wrap:wrap;margin-top:0}
+
+/* ---- 16. LONG-FORM REGULATORY PAGES ---- */
+.legal{max-width:74ch}
+.legal h2{margin-top:2.6rem}
+.legal h2:first-of-type{margin-top:0}
+.legal h3{margin:1.9rem 0 .7rem}
+.legal ul,.legal ol{margin:0 0 1.2rem;padding-left:1.15rem;color:var(--slate)}
+.legal li{padding:.28rem 0}
+.legal li strong{color:var(--text)}
+.legal table{margin-bottom:1.4rem}
+.legal .box{border:1px solid var(--rule);border-left:3px solid var(--teal);border-radius:var(--r);background:var(--paper-2);padding:1.15rem 1.25rem;margin:1.6rem 0}
+.legal .box p{font-size:.94rem;color:var(--slate)}
+.legal .box p strong{color:var(--text)}
+.updated{font:400 .71rem/1.6 var(--mono);color:var(--slate);letter-spacing:.04em;margin-bottom:2rem}
+code{font:400 .92em/1.4 var(--mono);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:.08em .35em}
+.legal .box code{background:var(--white)}
+
+table{width:100%;border-collapse:collapse;font-size:.94rem}
+caption{text-align:left;font:400 .67rem/1 var(--mono);text-transform:uppercase;letter-spacing:.14em;color:var(--slate);padding-bottom:.85rem}
+th,td{text-align:left;padding:.88rem .55rem;border-bottom:1px solid var(--rule);vertical-align:top}
+th{font:400 .68rem/1.3 var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--slate)}
+tbody tr:last-child td{border-bottom:0}
+
+/* ---- 17. FOOTER ---- */
+.foot{background:#080A18;color:#A3A9C4;padding-block:clamp(44px,5.5vw,66px) 2rem;font-size:.9rem}
+.foot__g{display:grid;gap:2.4rem;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));padding-bottom:2.4rem;border-bottom:1px solid rgba(255,255,255,.1)}
+@media (max-width:900px){.foot__g{grid-template-columns:1fr 1fr}.foot__b{grid-column:1/-1}}
+/* h2, not h4: the footer is its own contentinfo landmark and carries no
+   higher heading, so starting at h4 would skip levels in the outline. */
+.foot h2{font:500 .67rem/1 var(--mono);text-transform:uppercase;letter-spacing:.15em;color:#fff;margin-bottom:1rem}
+.foot ul{margin:0;padding:0;list-style:none}
+.foot li{margin-bottom:.58rem}
+.foot a{text-decoration:none}
+.foot a:hover{color:#fff}
+.foot__b p{margin-top:1.05rem;max-width:46ch;font-size:.87rem;line-height:1.65}
+.foot__law{padding-top:1.8rem;display:grid;gap:1rem}
+.badge{display:inline-flex;align-items:center;gap:.5rem;font:400 .69rem/1 var(--mono);letter-spacing:.08em;border:1px solid rgba(255,255,255,.2);border-radius:var(--r);padding:.42rem .7rem;color:#fff}
+.badge svg{color:var(--brass-lift)}
+.foot__row{display:flex;flex-wrap:wrap;gap:.7rem 1.6rem;align-items:center}
+
+/* ---- 18. STICKY MOBILE ACTION BAR ---- */
+.dock{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;display:none;gap:1px;
+  background:rgba(255,255,255,.14);
+  padding-bottom:env(safe-area-inset-bottom);
+  box-shadow:0 -8px 28px -10px rgba(14,17,38,.4);
+}
+.dock a{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:1rem .6rem;text-decoration:none;font:500 .9rem/1 var(--sans);
+}
+.dock .d1{background:var(--teal);color:#fff}
+.dock .d2{background:var(--ink);color:#fff}
+@media (max-width:780px){
+  .dock{display:flex}
+  body{padding-bottom:60px}
+}
+
+/* ---- 19. REVEAL / MOTION ---- */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .62s ease,transform .62s cubic-bezier(.2,.7,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+}
+@media print{.bar,.dock,.strip,.intake{display:none}body{background:#fff;color:#000}}
