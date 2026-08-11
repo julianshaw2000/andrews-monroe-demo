@@ -382,6 +382,11 @@ strong{font-weight:600}
 .legal .box p{font-size:.94rem;color:var(--slate)}
 .legal .box p strong{color:var(--text)}
 .updated{font:400 .71rem/1.6 var(--mono);color:var(--slate);letter-spacing:.04em;margin-bottom:2rem}
+/* A required disclosure whose value the firm has not supplied yet. Styled to
+   look unfinished on purpose — a blank cell reads as "nothing to declare",
+   which for insurance or VAT would be a false statement rather than a gap. */
+.pending{font-family:var(--mono);font-size:.86rem;color:var(--amber)}
+.pending::before{content:"⚠ ";font-family:var(--sans)}
 code{font:400 .92em/1.4 var(--mono);background:var(--paper);border:1px solid var(--rule);border-radius:3px;padding:.08em .35em}
 .legal .box code{background:var(--white)}
 
