@@ -138,8 +138,9 @@
         <tr><th scope="row">Sole practitioner</th><td>Johanna A. Cargill, LLB, LLM &mdash; solicitor of England and Wales, admitted 1 December 2004</td></tr>
         <tr><th scope="row">Founded</th><td>2008</td></tr>
         <tr><th scope="row">Compliance Officer for Legal Practice</th><td>Johanna A. Cargill</td></tr>
-        <!-- TODO(verify): office address is disputed across the firm's own sources.
-             The Provision of Services Regulations require a geographic address. -->
+        <!-- Confirmed by the client, 12 Aug 2026. High Holborn is the correct
+             office address; the 22 Upper Ground address that appears on the old
+             site's data protection policy is wrong. -->
         <tr><th scope="row">Office address</th><td>330 High Holborn, London WC2A 1HL</td></tr>
         <tr><th scope="row">Contact</th><td><a href="tel:+447521844993">07521 844993</a> &middot; <a href="mailto:jc@andrewsmonroe.co.uk">jc@andrewsmonroe.co.uk</a></td></tr>
       </tbody>
@@ -156,19 +157,23 @@
 
     <div class="box">
       <!-- ==========================================================
-           TODO(verify): SRA DIGITAL BADGE — MISSING, AND MANDATORY.
+           SRA DIGITAL BADGE — OUTSTANDING, AND KNOWN TO THE CLIENT.
            Regulated firms must display the SRA's clickable digital
-           badge on their website. It cannot be recreated by hand: it
-           is a firm-specific embed issued to the firm through its
-           mySRA account, and it links back to the firm's verified
-           register entry. Obtain the snippet and drop it in below,
-           and add it to the footer of every page via
-           assets/partials.html.
+           badge. It cannot be recreated by hand: it is a firm-specific
+           embed issued through mySRA that links to the firm's verified
+           register entry.
+
+           The client reported on 12 Aug 2026 that moving the badge has
+           itself been a significant legal difficulty, and that this is
+           the reason the existing site has been kept running. So this
+           is a known blocker rather than an oversight — it is not
+           something the build can resolve. Drop the embed in here, and
+           into the footer via assets/partials.html, once it is
+           available.
            ========================================================== -->
-      <p><strong>SRA digital badge.</strong> This is where the SRA's digital badge belongs, and it is currently
-        missing. It has to be obtained from the SRA and embedded &mdash; it is deliberately not something that can be
-        reproduced by copying an image, because the point of it is that it links to the firm's verified entry on the
-        register.</p>
+      <p><strong>SRA digital badge.</strong> This is where the SRA's digital badge belongs. It is issued to the firm
+        by the SRA and links back to the firm's verified entry on the register, which is why it cannot simply be
+        copied across as an image.</p>
     </div>
 
     <h2>Reserved legal activities</h2>
@@ -192,19 +197,17 @@
       plainly whether the firm can help, and if not, what kind of solicitor you need instead.</p>
 
     <h2>Professional indemnity insurance</h2>
-    <p>Solicitors must carry professional indemnity insurance meeting the SRA's minimum terms, and must make details
-      of it available to clients on request. The Provision of Services Regulations 2009 require the insurer's name and
-      address and the territorial coverage of the policy to be given.</p>
-    <table>
-      <tbody>
-        <!-- TODO(verify): ALL THREE ROWS. These must come from the firm's current
-             policy schedule. Do not publish anything here that has not been read
-             off the schedule, and update it at every renewal. -->
-        <tr><th scope="row">Insurer</th><td class="pending">To be confirmed</td></tr>
-        <tr><th scope="row">Insurer's address</th><td class="pending">To be confirmed</td></tr>
-        <tr><th scope="row">Territorial coverage</th><td class="pending">To be confirmed</td></tr>
-      </tbody>
-    </table>
+    <!-- The client has decided not to publish the policy details, which is her
+         call and a common one. The Provision of Services Regulations require the
+         information to be MADE AVAILABLE, not published: offering it on request
+         satisfies that. An earlier draft of this page listed the insurer, address
+         and territorial coverage as blanks awaiting completion, which wrongly
+         implied publication was mandatory. -->
+    <p>The firm carries professional indemnity insurance meeting the minimum terms and conditions required by the
+      Solicitors Regulation Authority.</p>
+    <p><strong>Details of the insurer, including its address and the territorial coverage of the policy, are available
+      on request.</strong> Ask by <a href="mailto:jc@andrewsmonroe.co.uk">email</a> or on
+      <a href="tel:+447521844993">07521 844993</a> and they will be sent to you.</p>
 
     <h2>VAT</h2>
     <!-- Resolved from the firm's own price transparency page, which states in
@@ -288,7 +291,9 @@
           </svg>
           <span><span class="brand__n">Andrews &amp; Monroe</span><span class="brand__s">Solicitors</span></span>
         </a>
-        <!-- TODO(verify): office address is disputed across the firm's own sources -->
+        <!-- Address confirmed by the client, 12 Aug 2026: High Holborn is correct.
+             The 22 Upper Ground address on the old data protection policy is wrong
+             and should be corrected there. -->
         <p>330 High Holborn, London WC2A 1HL<br>
           <a href="tel:+447521844993">07521 844993</a> &middot;
           <a href="mailto:jc@andrewsmonroe.co.uk">jc@andrewsmonroe.co.uk</a></p>
